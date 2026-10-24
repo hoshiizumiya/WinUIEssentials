@@ -541,7 +541,13 @@ namespace winrt::WinUI3Package::implementation
 				auto const direction = args.Reason() == winrt::Windows::Web::UI::Interop::WebViewControlMoveFocusReason::Previous
 					? winrt::Microsoft::UI::Xaml::Input::FocusNavigationDirection::Previous
 					: winrt::Microsoft::UI::Xaml::Input::FocusNavigationDirection::Next;
-				winrt::Microsoft::UI::Xaml::Input::FocusManager::TryMoveFocus(direction);
+				//The overload without FindNextElementOptions throws E_UNEXPECTED in a desktop app, it needs a loaded SearchRoot
+				if (auto const xamlRoot = self->XamlRoot())
+				{
+					winrt::Microsoft::UI::Xaml::Input::FindNextElementOptions options;
+					options.SearchRoot(xamlRoot.Content());
+					winrt::Microsoft::UI::Xaml::Input::FocusManager::TryMoveFocus(direction, options);
+				}
 				self->m_moveFocusRequested(*self, args);
 			});
 		m_acceleratorKeyPressedToken = m_webview.AcceleratorKeyPressed([weak = get_weak()](auto const&, winrt::Windows::Web::UI::Interop::WebViewControlAcceleratorKeyPressedEventArgs const& args)

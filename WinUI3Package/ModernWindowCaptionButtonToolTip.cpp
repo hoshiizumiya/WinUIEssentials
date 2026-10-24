@@ -15,7 +15,6 @@ namespace winrt::WinUI3Package::implementation
 {
     ModernWindowCaptionButtonToolTip::ModernWindowCaptionButtonToolTip()
     {
-        IsTabStop(false);
         IsHitTestVisible(false);
 
         Loaded([this](auto&&...) 

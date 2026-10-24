@@ -2,7 +2,7 @@
 {
     [bindable]
     [default_interface]
-    runtimeclass WebView : Microsoft.UI.Xaml.Controls.Control
+    runtimeclass WebView : Microsoft.UI.Xaml.FrameworkElement
     {
         WebView();
 

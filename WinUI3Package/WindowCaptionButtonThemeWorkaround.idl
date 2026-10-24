@@ -2,7 +2,7 @@
 {
     [bindable]
     [default_interface]
-    runtimeclass WindowCaptionButtonThemeWorkaround : Microsoft.UI.Xaml.Controls.Control
+    runtimeclass WindowCaptionButtonThemeWorkaround : Microsoft.UI.Xaml.FrameworkElement
     {
         WindowCaptionButtonThemeWorkaround();
 	    WindowCaptionButtonThemeWorkaround(Microsoft.UI.Xaml.Window window);
