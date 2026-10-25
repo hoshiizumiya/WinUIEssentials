@@ -7,6 +7,7 @@
 #include <WindowsAppSDK-VersionInfo.h>
 #include <appmodel.h>
 #include <shellapi.h>
+#include <cmath>
 #pragma comment(lib, "Shell32.lib")
 #endif
 
@@ -158,6 +159,24 @@ namespace winrt::PackageRoot::implementation
 		if (relaunchViaAppsFolder())
 			winrt::WinUINamespace::UI::Xaml::Application::Current().Exit();
 	}
+
+	void AboutPage::DelayFramesBox_ValueChanged(
+		winrt::WinUINamespace::UI::Xaml::Controls::NumberBox const&,
+		winrt::WinUINamespace::UI::Xaml::Controls::NumberBoxValueChangedEventArgs const& e)
+	{
+		//NaN when the box is cleared
+		auto const value = e.NewValue();
+		if (std::isnan(value))
+			return;
+
+		//Also skips the initial value set in InitializeComponent, so the default is not saved as if it was picked
+		auto const frames = static_cast<int32_t>(std::lround(value));
+		if (frames == winrt::WinUI3Package::WindowEx::DelayFrames())
+			return;
+
+		winrt::WinUI3Package::WindowEx::DelayFrames(frames);
+		winrt::Windows::Storage::ApplicationData::Current().LocalSettings().Values().Insert(L"DelayFrames", winrt::box_value(frames));
+	}
 #endif
 
 	winrt::Windows::Foundation::Collections::IVector<winrt::Windows::Foundation::IInspectable> AboutPage::Contributors()
@@ -173,6 +192,10 @@ namespace winrt::PackageRoot::implementation
 	void AboutPage::InitializeComponent()
 	{
 		AboutPageT::InitializeComponent();
+
+#if defined Build_WinUIExample
+		DelayFramesBox().Value(winrt::WinUI3Package::WindowEx::DelayFrames());
+#endif
 
 		auto m_compositor = winrt::WinUINamespace::UI::Xaml::Hosting::ElementCompositionPreview::GetElementVisual(*this).Compositor();
 		addImplicitAnimationToLoading(m_compositor);

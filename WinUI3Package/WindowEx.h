@@ -129,6 +129,9 @@ namespace winrt::WinUI3Package::implementation
         winrt::Microsoft::UI::Windowing::AppWindow AppWindow();
         uint64_t Hwnd();
 
+        static int32_t DelayFrames();
+        static void DelayFrames(int32_t value);
+
         /*For transparent backdrop*/
         void Transparent(bool value);
 

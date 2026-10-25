@@ -5,6 +5,7 @@
 #include "App.xaml.h"
 #include "MainWindow.xaml.h"
 #include <winrt/Microsoft.Windows.AppNotifications.h>
+#include <winrt/Windows.Storage.h>
 #include "UpdateChecker.h"
 #include <winrt/Windows.Services.Store.h>
 #include <wil/cppwinrt.h>
@@ -51,6 +52,9 @@ namespace winrt::WinUI3Example::implementation
     /// 
     void App::OnLaunched(Microsoft::UI::Xaml::LaunchActivatedEventArgs const&)
     {
+        //MainWindow is a WindowEx, so this has to be set before it is constructed. Nothing saved keeps the default
+        if (auto delayFrames = winrt::Windows::Storage::ApplicationData::Current().LocalSettings().Values().TryLookup(L"DelayFrames"))
+            winrt::WinUI3Package::WindowEx::DelayFrames(winrt::unbox_value<int32_t>(delayFrames));
         window = make<MainWindow>();
         window.Activate();
 

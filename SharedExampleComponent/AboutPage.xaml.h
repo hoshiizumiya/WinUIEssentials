@@ -40,6 +40,11 @@ namespace winrt::PackageRoot::implementation
             winrt::Windows::Foundation::IInspectable const& sender,
             winrt::WinUINamespace::UI::Xaml::RoutedEventArgs const& e
         );
+
+        void DelayFramesBox_ValueChanged(
+            winrt::WinUINamespace::UI::Xaml::Controls::NumberBox const& sender,
+            winrt::WinUINamespace::UI::Xaml::Controls::NumberBoxValueChangedEventArgs const& e
+        );
 #endif
 
         winrt::Windows::Foundation::Collections::IVector<winrt::Windows::Foundation::IInspectable> Contributors();

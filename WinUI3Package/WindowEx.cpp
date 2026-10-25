@@ -702,6 +702,16 @@ namespace winrt::WinUI3Package::implementation
 		return reinterpret_cast<uint64_t>(m_hwnd);
 	}
 
+	int32_t WindowEx::DelayFrames()
+	{
+		return DelayWindowShowHelper::DelayFrames();
+	}
+
+	void WindowEx::DelayFrames(int32_t value)
+	{
+		DelayWindowShowHelper::DelayFrames(value);
+	}
+
 
 	void WindowEx::Transparent(bool value)
 	{

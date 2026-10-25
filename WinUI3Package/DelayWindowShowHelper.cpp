@@ -3,7 +3,7 @@
 
 void DelayWindowShowHelper::onRendered(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Media::RenderedEventArgs const& arg)
 {
-	if (++m_renderedCount > 1)
+	if (++m_renderedCount >= m_delayFrames)
 		markReadyToShow();
 }
 
@@ -44,6 +44,20 @@ DelayWindowShowHelper::DelayWindowShowHelper(HWND hwnd, winrt::Microsoft::UI::Di
 	m_dispatcherTimer.Interval(std::chrono::milliseconds{ 100 });
 	m_dispatcherRevoker = m_dispatcherTimer.Tick(winrt::auto_revoke, { this, &DelayWindowShowHelper::onDispatcherTimerTick });
 	m_dispatcherTimer.Start();
+
+	//No frames to wait for
+	if (m_delayFrames == 0)
+		markReadyToShow();
+}
+
+int DelayWindowShowHelper::DelayFrames()
+{
+	return s_delayFrames;
+}
+
+void DelayWindowShowHelper::DelayFrames(int value)
+{
+	s_delayFrames = value < 0 ? 0 : value;
 }
 
 void DelayWindowShowHelper::RequestShow()

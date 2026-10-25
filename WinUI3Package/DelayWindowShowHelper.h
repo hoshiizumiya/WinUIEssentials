@@ -10,11 +10,15 @@ class DelayWindowShowHelper
 	void markReadyToShow();
 	void showWindow();
 
+	static inline int s_delayFrames = 2;
+
 	bool m_readyToShow{};
 	bool m_showRequested{};
 	bool m_shown{};
 	int m_renderedCount{};
 	int m_tick{};
+	/*Taken once, so changing the setting does not affect a window that is already waiting*/
+	int m_delayFrames = s_delayFrames;
 	winrt::Microsoft::UI::Dispatching::DispatcherQueueTimer m_dispatcherTimer{ nullptr };
 	winrt::Microsoft::UI::Dispatching::DispatcherQueueTimer::Tick_revoker m_dispatcherRevoker;
 	winrt::Microsoft::UI::Xaml::Media::CompositionTarget::Rendered_revoker m_renderingRevoker =
@@ -24,4 +28,8 @@ public:
 	DelayWindowShowHelper(HWND hwnd, winrt::Microsoft::UI::Dispatching::DispatcherQueue const& queue);
 	void RequestShow();
 	void OnWM_WindowPosChanging(WINDOWPOS& windowPos);
+
+	/*Frames XAML has to render before the window shows, for helpers constructed from now on. 0 shows right away*/
+	static int DelayFrames();
+	static void DelayFrames(int value);
 };

@@ -17,7 +17,7 @@
         <StackPanel.ChildrenTransitions>
             <RepositionThemeTransition />
         </StackPanel.ChildrenTransitions>
-        
+
         <essential:SettingsExpander
             Description="A toolkit for WinUi3 C++ developers"
             Header="WinUIEssential Gallery"
@@ -287,6 +287,17 @@
                 <TextBlock Text="Enabled" />
             </StackPanel>
         </essential:SettingsExpander>
+
+        <essential:SettingsCard Description="Adjust the number of frames to delay Window from showing to workaround the black background. Effective on next launch." Header="Delay render frames">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <NumberBox
+                    x:Name="DelayFramesBox"
+                    Minimum="0"
+                    SpinButtonPlacementMode="Compact"
+                    ValueChanged="DelayFramesBox_ValueChanged" />
+                <TextBlock VerticalAlignment="Center" Text="Frames" />
+            </StackPanel>
+        </essential:SettingsCard>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

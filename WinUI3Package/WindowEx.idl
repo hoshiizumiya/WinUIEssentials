@@ -70,6 +70,10 @@
         Microsoft.UI.Windowing.AppWindow AppWindow{ get; };
         UInt64 Hwnd{ get; };
 
+        /*Frames XAML renders before the window first shows, so it does not flash an empty frame.
+          Default is 2, 0 shows right away. Applies to WindowEx constructed afterwards*/
+        static Int32 DelayFrames;
+
 
         static Microsoft.UI.Xaml.DependencyProperty NonClientRegionKindProperty{ get; };
 		static void SetNonClientRegionKind(Microsoft.UI.Xaml.FrameworkElement element, Microsoft.UI.Input.NonClientRegionKind value);
